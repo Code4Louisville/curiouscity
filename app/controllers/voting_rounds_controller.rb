@@ -17,6 +17,9 @@ class VotingRoundsController < ApplicationController
   def home
     @up_for_voting_class = "highlighted"
     @voting_round = VotingRound.where(status: VotingRound::Status::Live).first
+    if @voting_round.nil?
+      @voting_round = VotingRound.where(status: VotingRound::Status::Completed).order(start_time: :desc).first
+    end
     @previous_voting_round = @voting_round.previous unless @voting_round.nil?
   end
 
